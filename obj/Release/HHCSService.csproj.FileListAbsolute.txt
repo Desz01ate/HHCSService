@@ -1,0 +1,22 @@
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\bin\HHCSService.dll.config
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\bin\HHCSService.dll
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\bin\HHCSService.pdb
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.csprojResolveAssemblyReference.cache
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.csproj.CoreCompileInputs.cache
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.dll
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.pdb
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\bin\MySql.Data.dll
+C:\Users\kunvu\source\repos\HHCSService\HHCSService\bin\MySql.Data.xml
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\bin\HHCSService.dll.config
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\bin\HHCSService.dll
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\bin\HHCSService.pdb
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\bin\MySql.Data.dll
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\bin\MySql.Data.xml
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.csprojResolveAssemblyReference.cache
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.csproj.CoreCompileInputs.cache
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.dll
+C:\Users\kunvu\Desktop\DESKTOP-QOSPVBK\Deszolate-C\Deszolate C\Documents\source\repos\HHCSService\HHCSService\obj\Release\HHCSService.pdb
