@@ -13,12 +13,13 @@ namespace HHCSService
 {
     public class AuthHeader : SoapHeader
     {
-        private readonly string remoteAccess = "c2VydmVyPTEyNy4wLjAuMTtwb3J0PTMzMDY7ZGF0YWJhc2U9Y2tkO1VzZXIgSWQ9cm9vdDtQYXNzd29yZD1sb3ZlbG92ZTEyO2NoYXJzZXQ9dXRmOA==";
+        private readonly string remoteAccess = "server=sql12.freesqldatabase.com;port=3306;database=sql12227622;User Id=sql12227622;Password=Jc1w8UZBwk;charset=utf8";
+        //private readonly string remoteAccess = "c2VydmVyPTEyNy4wLjAuMTtwb3J0PTMzMDY7ZGF0YWJhc2U9Y2tkO1VzZXIgSWQ9cm9vdDtQYXNzd29yZD1sb3ZlbG92ZTEyO2NoYXJzZXQ9dXRmOA==";
         public string Username { get; set; }
         public string Password { get; set; }
         public bool UserValidation()
         {
-            var mySQLConn = new MySqlConnection(EncodeHelper.Base64Decode(remoteAccess));
+            var mySQLConn = new MySqlConnection(remoteAccess);
             mySQLConn.Open();
             var mySQLCommand = mySQLConn.CreateCommand();
             mySQLCommand.CommandText = $"SELECT ud_pass FROM UserTABLE WHERE ud_email = '{Username}'";
@@ -62,7 +63,26 @@ namespace HHCSService
     // [System.Web.Script.Services.ScriptService]
     public class HHCSService : System.Web.Services.WebService
     {
-        private readonly string remoteAccess = "c2VydmVyPTEyNy4wLjAuMTtwb3J0PTMzMDY7ZGF0YWJhc2U9Y2tkO1VzZXIgSWQ9cm9vdDtQYXNzd29yZD1sb3ZlbG92ZTEyO2NoYXJzZXQ9dXRmOA==";
+        //private readonly string remoteAccess = "c2VydmVyPTEyNy4wLjAuMTtwb3J0PTMzMDY7ZGF0YWJhc2U9Y2tkO1VzZXIgSWQ9cm9vdDtQYXNzd29yZD1sb3ZlbG92ZTEyO2NoYXJzZXQ9dXRmOA==";
+        private readonly string remoteAccess = "server=sql12.freesqldatabase.com;port=3306;database=sql12227622;User Id=sql12227622;Password=Jc1w8UZBwk;charset=utf8";
+        //private readonly string remoteAccess = "server=127.0.0.1;port=3306;database=ckd;User Id=root;Password=lovelove12;charset=utf8";
+        [WebMethod]
+        public string InsertI()
+        {
+            try
+            {
+                var mconn = new MySqlConnection(remoteAccess);
+                mconn.Open();
+                var command = mconn.CreateCommand();
+                command.CommandText = "INSERT INTO I VALUES(null)";
+                var result = command.ExecuteNonQuery();
+                return result.ToString();
+            }
+            catch(Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
         private string CreatePasswordHash(string password)
         {
             byte[] salt;
@@ -110,7 +130,7 @@ namespace HHCSService
             object[] ReturnData = new object[2];
             try
             {
-                var mConn = new MySqlConnection(EncodeHelper.Base64Decode(remoteAccess));
+                var mConn = new MySqlConnection(remoteAccess);
                 mConn.Open();
                 var command = mConn.CreateCommand();
                 command.CommandText = $@"
@@ -167,7 +187,7 @@ namespace HHCSService
             try
             {
                 var query = $@"SELECT * FROM FoodTABLE WHERE food_id IN (SELECT foodexchange_id FROM foodexchangetable WHERE food_id = {id})";
-                var mySQLConn = new MySqlConnection(EncodeHelper.Base64Decode(remoteAccess));
+                var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var tickets = new DataSet();
                 var adapter = new MySqlDataAdapter(query, mySQLConn);
@@ -197,7 +217,7 @@ namespace HHCSService
                     query = "SELECT * FROM FoodTABLE";
                 else
                     query = $@"SELECT * FROM FoodTABLE WHERE food_name LIKE '%{search_query}%'";
-                var mySQLConn = new MySqlConnection(EncodeHelper.Base64Decode(remoteAccess));
+                var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var tickets = new DataSet();
                 var adapter = new MySqlDataAdapter(query, mySQLConn);
@@ -225,7 +245,7 @@ namespace HHCSService
                 throw new UnauthorizedAccessException();
             try
             {
-                var mySQLConn = new MySqlConnection(EncodeHelper.Base64Decode(remoteAccess));
+                var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var mySQLCommand = mySQLConn.CreateCommand();
                 mySQLCommand.CommandText = $"SELECT ud_pass FROM UserTABLE WHERE ud_email = '{Authentication.Username}'";
@@ -275,7 +295,7 @@ namespace HHCSService
             queryList.Add("START");
             try
             {
-                var mySQLConn = new MySqlConnection(EncodeHelper.Base64Decode(remoteAccess));
+                var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var mySQLCommand = mySQLConn.CreateCommand();
                 mySQLCommand.CommandText = $"SELECT ud_pass FROM UserTABLE WHERE ud_email = '{Authentication.Username}'";
@@ -471,7 +491,7 @@ namespace HHCSService
         {
             if (Authentication == null || !Authentication.UserValidation())
                 throw new UnauthorizedAccessException();
-            var mySQLConn = new MySqlConnection(EncodeHelper.Base64Decode(remoteAccess));
+            var mySQLConn = new MySqlConnection(remoteAccess);
             mySQLConn.Open();
             var mySQLCommand = mySQLConn.CreateCommand();
             mySQLCommand.CommandText = $@"INSERT INTO temp_foodtable(food_name) values('{food_name}')";
