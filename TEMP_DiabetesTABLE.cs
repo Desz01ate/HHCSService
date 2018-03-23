@@ -16,6 +16,8 @@ namespace HHCSService
         public int fbs_fbs_old { get; set; }
         public int fbs_fbs_lvl_new { get; set; }
         public int fbs_fbs_lvl_old { get; set; }
+        public double fbs_fbs_sum_new { get; set; }
+        public double fbs_fbs_sum_old { get; set; }
         public string mode { get; set; }
 
 

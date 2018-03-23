@@ -315,6 +315,7 @@ namespace HHCSService
                             $",'{((TEMP_DiabetesTABLE)row).fbs_time_new.ToString("yyyy-MM-dd HH:mm:ss")}'" +
                             $",{((TEMP_DiabetesTABLE)row).fbs_fbs_new}" +
                             $",{((TEMP_DiabetesTABLE)row).fbs_fbs_lvl_new}" +
+                            $",{((TEMP_DiabetesTABLE)row).fbs_fbs_sum_new}" +
                             $",{userID})";
                         }
                         else if (((TEMP_DiabetesTABLE)row).mode == "U")
@@ -323,6 +324,7 @@ namespace HHCSService
                             $@"UPDATE diabetestable 
                                 SET
                                     fbs_fbs = {row.fbs_fbs_new}
+                                    ,fbs_fbs_sum = {row.fbs_fbs_sum_new}
                                     ,fbs_time = '{row.fbs_time_string_new}'
                                     ,fbs_fbs_lvl = {row.fbs_fbs_lvl_new}
                                 WHERE 
