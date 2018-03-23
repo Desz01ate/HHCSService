@@ -22,7 +22,7 @@ namespace HHCSService
             var mySQLConn = new MySqlConnection(remoteAccess);
             mySQLConn.Open();
             var mySQLCommand = mySQLConn.CreateCommand();
-            mySQLCommand.CommandText = $"SELECT ud_pass FROM UserTABLE WHERE ud_email = '{Username}'";
+            mySQLCommand.CommandText = $"SELECT ud_pass FROM usertable WHERE ud_email = '{Username}'";
             if (ComparePassword(Password, (string)mySQLCommand.ExecuteScalar()))
             {
                 return true;
@@ -64,8 +64,8 @@ namespace HHCSService
     public class HHCSService : System.Web.Services.WebService
     {
         //private readonly string remoteAccess = "c2VydmVyPTEyNy4wLjAuMTtwb3J0PTMzMDY7ZGF0YWJhc2U9Y2tkO1VzZXIgSWQ9cm9vdDtQYXNzd29yZD1sb3ZlbG92ZTEyO2NoYXJzZXQ9dXRmOA==";
-        private readonly string remoteAccess = "server=sql12.freesqldatabase.com;port=3306;database=sql12227622;User Id=sql12227622;Password=Jc1w8UZBwk;charset=utf8";
-        //private readonly string remoteAccess = "server=127.0.0.1;port=3306;database=ckd;User Id=root;Password=lovelove12;charset=utf8";
+        //private readonly string remoteAccess = "server=sql12.freesqldatabase.com;port=3306;database=sql12227622;User Id=sql12227622;Password=Jc1w8UZBwk;charset=utf8";
+        private readonly string remoteAccess = "server=127.0.0.1;port=3306;database=ckd;User Id=root;Password=lovelove12;charset=utf8";
         [WebMethod]
         public string InsertI()
         {
@@ -134,7 +134,7 @@ namespace HHCSService
                 mConn.Open();
                 var command = mConn.CreateCommand();
                 command.CommandText = $@"
-                    INSERT INTO `ckd`.`usertable`
+                    INSERT INTO usertable
                         (`ud_id`,
                         `ud_email`,
                         `ud_pass`,
@@ -152,9 +152,9 @@ namespace HHCSService
                         '{ud_datetime.ToString("yyyy-MM-dd HH:mm:ss")}');
                 ";
                 command.ExecuteNonQuery();
-                command.CommandText = "SELECT MAX(ud_id) FROM UserTABLE";
+                command.CommandText = $@"SELECT ud_id FROM usertable where ud_email = '{ud_email}'";
                 ReturnData[0] = (int)command.ExecuteScalar();
-                command.CommandText = $"SELECT ud_pass FROM UserTABLE WHERE ud_email = '{ud_email}'";
+                command.CommandText = $"SELECT ud_pass FROM usertable WHERE ud_email = '{ud_email}'";
                 ReturnData[1] = (string)command.ExecuteScalar();
                 return ReturnData;
             }
@@ -186,7 +186,7 @@ namespace HHCSService
                 throw new UnauthorizedAccessException();
             try
             {
-                var query = $@"SELECT * FROM FoodTABLE WHERE food_id IN (SELECT foodexchange_id FROM foodexchangetable WHERE food_id = {id})";
+                var query = $@"SELECT * FROM foodtable WHERE food_id IN (SELECT foodexchange_id FROM foodexchangetable WHERE food_id = {id})";
                 var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var tickets = new DataSet();
@@ -214,9 +214,9 @@ namespace HHCSService
             {
                 var query = string.Empty;
                 if (string.IsNullOrEmpty(search_query))
-                    query = "SELECT * FROM FoodTABLE";
+                    query = "SELECT * FROM foodtable";
                 else
-                    query = $@"SELECT * FROM FoodTABLE WHERE food_name LIKE '%{search_query}%'";
+                    query = $@"SELECT * FROM foodtable WHERE food_name LIKE '%{search_query}%'";
                 var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var tickets = new DataSet();
@@ -248,14 +248,14 @@ namespace HHCSService
                 var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var mySQLCommand = mySQLConn.CreateCommand();
-                mySQLCommand.CommandText = $"SELECT ud_pass FROM UserTABLE WHERE ud_email = '{Authentication.Username}'";
+                mySQLCommand.CommandText = $"SELECT ud_pass FROM usertable WHERE ud_email = '{Authentication.Username}' OR ud_name = '{Authentication.Username}'";
                 if (ComparePassword(Authentication.Password, (string)mySQLCommand.ExecuteScalar()))
                 {
                     List<object> returnData = new List<object>();
                     var query = 
-                            $"SELECT * FROM {tableName} " +
-                            $"WHERE ud_id = (SELECT ud_id FROM UserTABLE " +
-                            $"               WHERE ud_email = '{Authentication.Username}')";
+                            $"SELECT * FROM {tableName.ToLower()} " +
+                            $"WHERE ud_id = (SELECT ud_id FROM usertable " +
+                            $"               WHERE ud_email = '{Authentication.Username}' OR ud_name = '{Authentication.Username}')";
                     var tickets = new DataSet();
                     var adapter = new MySqlDataAdapter(query, mySQLConn);
                     adapter.Fill(tickets, tableName);
@@ -298,19 +298,19 @@ namespace HHCSService
                 var mySQLConn = new MySqlConnection(remoteAccess);
                 mySQLConn.Open();
                 var mySQLCommand = mySQLConn.CreateCommand();
-                mySQLCommand.CommandText = $"SELECT ud_pass FROM UserTABLE WHERE ud_email = '{Authentication.Username}'";
+                mySQLCommand.CommandText = $"SELECT ud_pass FROM usertable WHERE ud_email = '{Authentication.Username}' or ud_name = '{Authentication.Username}'";
                 if (ComparePassword(Authentication.Password, (string)mySQLCommand.ExecuteScalar()))
                 {
                     queryList.Add("ENTER");
                     queryList.Add($"Size of D{tempDiabetes.ToList().Count} K{tempKidney.ToList().Count} P{tempPressure.ToList().Count}");
-                    mySQLCommand.CommandText = $"SELECT ud_id FROM UserTABLE WHERE ud_email = '{Authentication.Username}'";
+                    mySQLCommand.CommandText = $"SELECT ud_id FROM usertable WHERE ud_email = '{Authentication.Username}' or ud_name = '{Authentication.Username}'";
                     var userID = (int)mySQLCommand.ExecuteScalar();
                     tempDiabetes.ForEach(row =>
                     {
                         if (((TEMP_DiabetesTABLE)row).mode == "I")
                         {
                             mySQLCommand.CommandText =
-                            $"INSERT INTO ckd.DiabetesTABLE " +
+                            $"INSERT INTO diabetestable " +
                             $"values({((TEMP_DiabetesTABLE)row).fbs_id_pointer}" +
                             $",'{((TEMP_DiabetesTABLE)row).fbs_time_new.ToString("yyyy-MM-dd HH:mm:ss")}'" +
                             $",{((TEMP_DiabetesTABLE)row).fbs_fbs_new}" +
@@ -320,7 +320,7 @@ namespace HHCSService
                         else if (((TEMP_DiabetesTABLE)row).mode == "U")
                         {
                             mySQLCommand.CommandText =
-                            $@"UPDATE ckd.DiabetesTABLE 
+                            $@"UPDATE diabetestable 
                                 SET
                                     fbs_fbs = {row.fbs_fbs_new}
                                     ,fbs_time = '{row.fbs_time_string_new}'
@@ -334,7 +334,7 @@ namespace HHCSService
                         else if (((TEMP_DiabetesTABLE)row).mode == "D")
                         {
                             mySQLCommand.CommandText =
-                            $@"DELETE FROM ckd.DiabetesTABLE where fbs_id = {((TEMP_DiabetesTABLE)row).fbs_id_pointer} AND ud_id = {userID};";
+                            $@"DELETE FROM diabetestable where fbs_id = {((TEMP_DiabetesTABLE)row).fbs_id_pointer} AND ud_id = {userID};";
                         }
                         try
                         {
@@ -353,7 +353,7 @@ namespace HHCSService
                         if (((TEMP_KidneyTABLE)row).mode == "I")
                         {
                             mySQLCommand.CommandText = $"" +
-                            $"INSERT INTO ckd.KidneyTABLE " +
+                            $"INSERT INTO kidneytable " +
                             $"values(" +
                             $"{((TEMP_KidneyTABLE)row).ckd_id_pointer}" +
                             $",'{((TEMP_KidneyTABLE)row).ckd_time_new.ToString("yyyy-MM-dd HH:mm:ss")}'" +
@@ -371,7 +371,7 @@ namespace HHCSService
                         else if (((TEMP_KidneyTABLE)row).mode == "U")
                         {
                             mySQLCommand.CommandText =
-                            $@"UPDATE ckd.KidneyTABLE 
+                            $@"UPDATE kidneytable
                         SET
                             ckd_time        = '{((TEMP_KidneyTABLE)row).ckd_time_string_new}'
                             ,ckd_gfr        = {((TEMP_KidneyTABLE)row).ckd_gfr_new}
@@ -392,7 +392,7 @@ namespace HHCSService
                         else if (((TEMP_KidneyTABLE)row).mode == "D")
                         {
                             mySQLCommand.CommandText =
-                            $@"DELETE FROM ckd.KidneyTABLE where ckd_id = {((TEMP_KidneyTABLE)row).ckd_id_pointer} AND ud_id = {userID};";
+                            $@"DELETE FROM kidneytable where ckd_id = {((TEMP_KidneyTABLE)row).ckd_id_pointer} AND ud_id = {userID};";
                         }
                         try
                         {
@@ -411,7 +411,7 @@ namespace HHCSService
                         if (((TEMP_PressureTABLE)row).mode == "I")
                         {
                             mySQLCommand.CommandText =
-                            $"INSERT INTO ckd.PressureTABLE " +
+                            $"INSERT INTO pressuretable " +
                             $"values(" +
                             $"{((TEMP_PressureTABLE)row).bp_id_pointer}" +
                             $",'{((TEMP_PressureTABLE)row).bp_time_new.ToString("yyyy-MM-dd HH:mm:ss")}'" +
@@ -427,7 +427,7 @@ namespace HHCSService
                         else if (((TEMP_PressureTABLE)row).mode == "U")
                         {
                             mySQLCommand.CommandText =
-                            $@"UPDATE ckd.PressureTABLE
+                            $@"UPDATE pressuretable
                             SET
                                bp_time  = '{((TEMP_PressureTABLE)row).bp_time_string_new}'
                               ,bp_up    = {((TEMP_PressureTABLE)row).bp_up_new}
@@ -445,7 +445,7 @@ namespace HHCSService
                         else if (((TEMP_PressureTABLE)row).mode == "D")
                         {
                             mySQLCommand.CommandText =
-                            $@"DELETE FROM ckd.PressureTABLE 
+                            $@"DELETE FROM pressuretable 
                             WHERE 
                                 bp_id = {((TEMP_PressureTABLE)row).bp_id_pointer} 
                             AND 
